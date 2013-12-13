@@ -17,7 +17,7 @@ The MemberPress Addon for WP Courseware will add full integration with WP Course
 With this addon, you will be able to create a fully automated LMS system which you can sell online, or if you choose to run a free online course, you can do so with ease.
 
 = MemberPressship Plugin Integration with WP Courseware Plugin =
-[youtube http://www.youtube.com/watch?v=EkgpNvMfReY]
+[youtube http://www.youtube.com/watch?v=a9PKLp8nb40]
 
 = Basic Configuration Steps =
 1. Create a course with WP Courseware and add module(s), unit(s), and quiz(zes)
