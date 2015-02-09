@@ -1,28 +1,12 @@
 <?php
 /*
  * Plugin Name: WP Courseware - MemberPress Add On
- * Version: 1.0
+ * Version: 1.1
  * Plugin URI: http://flyplugins.com
  * Description: The official extension for WP Courseware to add support for the MemberPress membership plugin for WordPress.
  * Author: Fly Plugins
  * Author URI: http://flyplugins.com
  */
-/*
- Copyright 2013 Fly Plugins
-
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
-
- http://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
- */
-
 
 // Main parent class
 include_once 'class_members.inc.php';
@@ -31,7 +15,7 @@ include_once 'class_members.inc.php';
 add_action('init', 'WPCW_MemberPress_init',1);
 
 /**
- * Initialise the membership plugin, only loaded if WP Courseware 
+ * Initialize the membership plugin, only loaded if WP Courseware 
  * exists and is loading correctly.
  */
 function WPCW_MemberPress_init()
@@ -76,16 +60,18 @@ class WPCW_Members_MemberPress extends WPCW_Members
 	
 	
 	/**
-	 * Get the membership levels for this specific membership plugin. (id => array (of details))
+	 * Get the membership levels for MemberPress.
 	 */
 	protected function getMembershipLevels()
 	{
 	
+	//Define $args for post query
 	$args=array(
   		'post_type' => 'memberpressproduct',
   		'post_status' => 'publish',
   		'numberposts' => -1
 	);
+
 	$levelData = get_posts($args);
 	
 		if ($levelData && count($levelData) > 0)
@@ -101,14 +87,10 @@ class WPCW_Members_MemberPress extends WPCW_Members
 				$levelItem['id'] 	= $levelDatum->ID;
 				$levelItem['raw'] 	= $levelDatum;
 				
-					
-				$levelDataStructured[$levelItem['id']] = $levelItem;
-				
+				$levelDataStructured[$levelItem['id']] = $levelItem;	
 			}
-			
 			return $levelDataStructured;
 		}
-		
 		return false;
 	}
 	
@@ -120,23 +102,67 @@ class WPCW_Members_MemberPress extends WPCW_Members
 	protected function attach_updateUserCourseAccess()
 	{
 		// Events called whenever the user levels are changed, which updates the user access.
-		add_action('mepr-txn-store', 		array($this, 'handle_updateUserCourseAccess'),10);
+		add_action('mepr-txn-store', 		array($this, 'handle_updateUserCourseAccess'),10,1);
+		add_action('mepr-subscr-store', 		array($this, 'handle_updateUserCourseAccess'),10,1);
 	}
+
+		/**
+	 * Assign selected courses to members of a paticular level.
+	 * @param members of $level_ID will get course enrollment adjusted
+	 */
+	protected function retroactive_assignment($level_ID)
+    {
+		global $wpdb;
+
+		$mepr_db = new MeprDb();
+		$page = new PageBuilder(false);
+		/*
+		* Query db for transaction IDs and user IDs for transactions
+		* that are in a pending and complete state
+		*/
+		$query = "SELECT user_id,id
+		      FROM {$mepr_db->transactions}
+			  WHERE product_id = $level_ID
+			  AND (status = 'pending' OR status = 'complete')";
+
+		$results = $wpdb->get_results($query);
+
+		if ($results){
+
+			//get user's assigned products and enroll them into courses accordingly
+			foreach ($results as $result){
+				
+				$userid = $result->user_id;
+				$user = new MeprUser($userid);
+				$productList = $user->active_product_subscriptions('ids', true);
+			
+				parent::handle_courseSync($userid, $productList);
+			}
+
+		$page->showMessage(__('All members were successfully retroactively enrolled into the selected courses.', 'wp_courseware'));
+            
+        return;
+
+		}else {
+            $page->showMessage(__('No existing customers found for the specified product.', 'wp_courseware'));
+        }
+		
+    }
 
 	/**
 	 * Function just for handling the membership callback, to interpret the parameters
 	 * for the class to take over.
-	 * 
-	 * @param Integer $id The ID if the user being changed.
-	 * @param Array $levels The list of levels for the user.
 	 */
-	public function handle_updateUserCourseAccess($txn)
+	public function handle_updateUserCourseAccess($obj)
 	{
-		// Get all user levels, with IDs.
-		$user = $txn->user(); //Load the user this transaction belongs to
-		$productList = $user->active_product_subscriptions('ids'); //Returns an array of Product ID's the user has purchased and is paid up on.
-		// Get user ID from transaction
-		$userid = $txn->user_id;
+		// Get user data
+		$user = new MeprUser($obj->user_id);
+
+		// Get product list for user
+		$productList = $user->active_product_subscriptions('ids', true);//Returns an array of Product ID's the user has purchased and is paid up on.
+		
+		// Get user ID
+		$userid = $obj->user_id;
 
 		// Over to the parent class to handle the sync of data.
 		parent::handle_courseSync($userid, $productList);

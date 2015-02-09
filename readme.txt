@@ -2,14 +2,16 @@
 Contributors: flyplugins
 Donate link: http://flyplugins.com/donate
 Tags: fly plugins,MemberPress,wp courseware,wpcourseware,lms,lms for wordpress,learning management system,online ecourse,ecourse,flyplugins,wordpress learning management system
-Requires at least: 3.0
-Tested up to: 3.6.1
-Stable tag: 1.0
+Requires at least: 3.7
+Tested up to: 4.1
+Stable tag: 1.1
+License: GPLv3
+License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
 This plugin adds integration between MemberPress and WP Courseware which allows you to assign course(s) to products for auto enrollment.
 
 == Description ==
-[Fly Plugins](http://flyplugins.com) presents [MemberPress](http://flyplugins.com/memberpress) for [WP Courseware](http://www.wpcourseware.com).
+[Fly Plugins](http://flyplugins.com) presents [MemberPress](http://flyplugins.com/memberpress) for [WP Courseware](http://wpcourseware.com).
 
 = Have you ever wanted to sell an online internet course or ecourse? =
 The MemberPress Addon for WP Courseware will add full integration with WP Courseware. It will allow you to assign WP Courseware courses to a product. Once the course(s) are assigned to a product, upon purchase of a product and registration, a student will automatically be enrolled into the associated courses.
@@ -17,7 +19,7 @@ The MemberPress Addon for WP Courseware will add full integration with WP Course
 With this addon, you will be able to create a fully automated LMS system which you can sell online, or if you choose to run a free online course, you can do so with ease.
 
 = MemberPressship Plugin Integration with WP Courseware Plugin =
-[youtube http://www.youtube.com/watch?v=a9PKLp8nb40]
+[youtube http://www.youtube.com/watch?v=Es3QmegWvWA]
 
 = Basic Configuration Steps =
 1. Create a course with WP Courseware and add module(s), unit(s), and quiz(zes)
@@ -25,17 +27,16 @@ With this addon, you will be able to create a fully automated LMS system which y
 3. Create a course outline page using [shortcode]
 4. Create a product and set a price
 5. Associate one or more WP Courseware courses with the product
-6. New users pay for the course through the shopping cart integration of your choice, the membership plugin assigns them WP user access and assigns them to the product for which they paid, and WP Courseware assigns them to the appropriate course(s) based on the product
+6. New student pays for the product, and WP Courseware enrolls them to the appropriate course(s) based on purchased product
 
 = Check out Fly Plugins =
 For more info about Fly Plugins Free and Premium Plugins, check out the following links:
 
-* [WP Courseware LMS plugin for WordPress](http://flyplugins.com/wp-courseware-premium-wordpress-plugin/) - The best LMS online for WordPress.
-* [S3 Media Maestro](http://www.s3mediamaestro.com/) - The best HTML 5 secure media player for WordPress that works hand in hand with Amazon S3.
-* Other [Fly PluginsWordPress Plugins](http://flyplugins.com) by Fly Plugins.
-* Follow Fly Plugins on [Facebook](http://flyplugins.com/facebook) 
+* WP Courseware [LMS plugin for WordPress](http://wpcourseware.com/) - The best LMS online for WordPress.
+* [S3 Media Maestro](http://s3mediamaestro.com/) - The best HTML 5 secure media player for WordPress that works hand in hand with Amazon S3.
+* Other [Fly Plugins](http://flyplugins.com) by Fly Plugins.
+* Follow Fly Plugins on [Facebook](http://facebook.com/flyplugins) 
 * Check out the Fly Plugins [YouTube](http://www.youtube.com/flyplugins) channel.
-* See documentation on our [Codex](http://flyplugins.com/codex) site.
 
 == Installation ==
 
@@ -55,7 +56,7 @@ Yes!
 
 = Where can I get WP Courseware? =
 
-Click here to get the [Best WordPress LMS Plugin](http://www.wpcourseware.com).
+Click here to get the [Best WordPress LMS Plugin](http://wpcourseware.com).
 
 = Where can I get MemberPress? =
 
@@ -68,6 +69,10 @@ Click here to get [MemberPress](http://flyplugins.com/memberpress).
 2. This is the actual configuration screen where you can select courses that will be associated with a particular membership level
 
 == Changelog ==
+
+= 1.1 =
+* New: Added the ability to retroactively enroll students to a course when adding a new course to an existing product
+* New: Now hooking into "mepr-subscr-store" to enroll students into courses
 
 = 1.0 =
 * Initial release
