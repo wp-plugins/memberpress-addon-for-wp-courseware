@@ -2,7 +2,7 @@
 Contributors: flyplugins
 Donate link: http://flyplugins.com/donate
 Tags: fly plugins,MemberPress,wp courseware,wpcourseware,lms,lms for wordpress,learning management system,online ecourse,ecourse,flyplugins,wordpress learning management system
-Requires at least: 3.7
+Requires at least: 3.8
 Tested up to: 4.1
 Stable tag: 1.1
 License: GPLv3
@@ -37,6 +37,9 @@ For more info about Fly Plugins Free and Premium Plugins, check out the followin
 * Other [Fly Plugins](http://flyplugins.com) by Fly Plugins.
 * Follow Fly Plugins on [Facebook](http://facebook.com/flyplugins) 
 * Check out the Fly Plugins [YouTube](http://www.youtube.com/flyplugins) channel.
+
+= Disclaimer =
+This is not an actual membership plugin. It is only the integration, or “middle-man” between WP Courseware and MemberPress.
 
 == Installation ==
 
